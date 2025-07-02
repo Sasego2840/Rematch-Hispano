@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { 
   Settings, Shield, Users, Trophy, Medal, Calendar, 
   Search, Edit, Pause, Trash, Crown, SearchSlash, Ban,
@@ -39,6 +40,7 @@ export function Admin() {
   const { isAdmin } = useAuth();
   const { toast } = useToast();
   const queryClient = useQueryClient();
+  const [, setLocation] = useLocation();
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isCreateMatchDialogOpen, setIsCreateMatchDialogOpen] = useState(false);
@@ -133,7 +135,7 @@ export function Admin() {
     return (
       <AdminLogin
         onSuccess={() => setIsAdminAuthenticated(true)}
-        onCancel={() => {}}
+        onCancel={() => setLocation('/')}
       />
     );
   }
