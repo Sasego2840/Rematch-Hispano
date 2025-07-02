@@ -5,6 +5,7 @@ import { storage } from "./storage";
 import { insertUserSchema, insertTeamSchema, insertTournamentSchema, insertLeagueSchema, insertMatchSchema, insertNotificationSchema } from "@shared/schema";
 import session from "express-session";
 import passport from "passport";
+import { Strategy as DiscordStrategy } from "passport-discord";
 
 // Simple Discord OAuth simulation (in production, use passport-discord)
 const DISCORD_CLIENT_ID = process.env.DISCORD_CLIENT_ID || "default_client_id";
@@ -26,6 +27,38 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.use(passport.initialize());
   app.use(passport.session());
+
+  // Configure Discord strategy
+  const getCallbackURL = () => {
+    if (process.env.NODE_ENV === 'production') {
+      return `https://${REPLIT_DOMAINS.split(',')[0]}/api/auth/discord/callback`;
+    }
+    return `http://localhost:5000/api/auth/discord/callback`;
+  };
+
+  passport.use(new DiscordStrategy({
+    clientID: DISCORD_CLIENT_ID,
+    clientSecret: DISCORD_CLIENT_SECRET,
+    callbackURL: getCallbackURL(),
+    scope: ['identify']
+  }, async (accessToken: string, refreshToken: string, profile: any, done: any) => {
+    try {
+      let user = await storage.getUserByDiscordId(profile.id);
+      
+      if (!user) {
+        user = await storage.createUser({
+          discordId: profile.id,
+          discordUsername: profile.username,
+          discordAvatar: profile.avatar,
+          role: 'user'
+        });
+      }
+      
+      return done(null, user);
+    } catch (error) {
+      return done(error, null);
+    }
+  }));
 
   passport.serializeUser((user: any, done) => {
     done(null, user.id);
@@ -65,51 +98,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   };
 
-  // Discord OAuth simulation
-  app.get("/api/auth/discord", (req, res) => {
-    const baseUrl = `https://${REPLIT_DOMAINS.split(',')[0]}` || "http://localhost:5000";
-    const redirectUri = `${baseUrl}/api/auth/discord/callback`;
-    const discordAuthUrl = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(redirectUri)}&response_type=code&scope=identify`;
-    res.redirect(discordAuthUrl);
-  });
+  // Discord OAuth routes
+  app.get("/api/auth/discord", passport.authenticate('discord'));
 
-  app.get("/api/auth/discord/callback", async (req, res) => {
-    const { code } = req.query;
-    
-    if (!code) {
-      return res.status(400).json({ message: "Código de autorización no proporcionado" });
+  app.get("/api/auth/discord/callback", 
+    passport.authenticate('discord', { failureRedirect: '/' }),
+    (req, res) => {
+      // Successful authentication, redirect to dashboard
+      res.redirect('/');
     }
-
-    try {
-      // In a real implementation, exchange code for access token and get user info
-      // For now, simulate a Discord user
-      const discordUser = {
-        id: `discord_${Date.now()}`,
-        username: `Usuario#${Math.floor(Math.random() * 9999)}`,
-        avatar: null
-      };
-
-      let user = await storage.getUserByDiscordId(discordUser.id);
-      
-      if (!user) {
-        user = await storage.createUser({
-          discordId: discordUser.id,
-          discordUsername: discordUser.username,
-          discordAvatar: discordUser.avatar,
-          role: 'user'
-        });
-      }
-
-      req.login(user, (err) => {
-        if (err) {
-          return res.status(500).json({ message: "Error de inicio de sesión" });
-        }
-        res.redirect('/');
-      });
-    } catch (error) {
-      res.status(500).json({ message: "Error en la autenticación con Discord" });
-    }
-  });
+  );
 
   app.post("/api/auth/logout", (req, res) => {
     req.logout((err) => {
