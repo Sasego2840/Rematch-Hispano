@@ -30,16 +30,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Configure Discord strategy
   const getCallbackURL = () => {
-    if (process.env.NODE_ENV === 'production') {
+    // Use REPLIT_DOMAINS for both development and production in Replit
+    if (REPLIT_DOMAINS && REPLIT_DOMAINS !== 'localhost:5000') {
       return `https://${REPLIT_DOMAINS.split(',')[0]}/api/auth/discord/callback`;
     }
     return `http://localhost:5000/api/auth/discord/callback`;
   };
 
+  const callbackURL = getCallbackURL();
+  console.log('Discord callback URL configurada:', callbackURL);
+  
   passport.use(new DiscordStrategy({
     clientID: DISCORD_CLIENT_ID,
     clientSecret: DISCORD_CLIENT_SECRET,
-    callbackURL: getCallbackURL(),
+    callbackURL: callbackURL,
     scope: ['identify']
   }, async (accessToken: string, refreshToken: string, profile: any, done: any) => {
     try {
