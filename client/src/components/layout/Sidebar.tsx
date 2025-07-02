@@ -22,7 +22,7 @@ export function Sidebar() {
     { path: "/calendario", icon: Calendar, label: "Calendario", show: !!user },
     { path: "/torneos", icon: Trophy, label: "Torneos", show: true },
     { path: "/ligas", icon: Medal, label: "Ligas", show: true },
-    { path: "/admin", icon: Settings, label: "Admin", show: isAdmin },
+    { path: "/admin", icon: Settings, label: "Admin", show: !!user },
   ];
 
   if (!user) {

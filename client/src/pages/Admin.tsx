@@ -129,30 +129,6 @@ export function Admin() {
   };
 
   // Show admin login if not authenticated
-  if (!isAdmin) {
-    return (
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <Header
-          title="Panel de Administración"
-          subtitle="Acceso restringido - Se requieren permisos de administrador"
-        />
-        <main className="flex-1 overflow-y-auto p-6 flex items-center justify-center">
-          <Card className="content-card max-w-md">
-            <CardContent className="p-8 text-center">
-              <Shield className="w-16 h-16 text-red-400 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">
-                Acceso Denegado
-              </h3>
-              <p className="text-gray-400">
-                Se requieren permisos de administrador para acceder a esta sección
-              </p>
-            </CardContent>
-          </Card>
-        </main>
-      </div>
-    );
-  }
-
   if (!isAdminAuthenticated) {
     return (
       <AdminLogin
