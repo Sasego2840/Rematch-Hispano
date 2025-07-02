@@ -1,0 +1,18 @@
+Rematch Liga Española es una pagina para crear competiciones del videojuego Rematch. 
+Para la pagina necesito 6 Botones/pestañas, diferenciados del fondo: Iniciar sesion, cerrar sesion, mi club, notificaciones, calendario, torneos, ligas y admin.
+Iniciar sesion: Aqui el usuario se logea enlazando su cuenta de Discord directamente
+Mi  Club: Aqui pone el equipo/liga/torneo al que perteneces, tambien puedes decidir si salirte por voluntad propia del equipo
+Cerrar sesion: Aqui el usuario se deslogea de la pagina y tiene que volver a conectarse
+Notificaciones: Aqui llegan los mensajes a los usuarios. Por ejemplo: Has recivido una invitacion para unirte al equipo X. Otro ejemplo: tu equipo tiene un Partido/Torneo el dia X
+Calendario: Aqui el admin establece los dias en los que se juega un partido, duracion de un torneo o liga
+Torneos: Aqui se muestran los torneos actuales a los cuales pertenece cada usuario y los que estan en funcionamiento actualmente. 
+Ligas: Aqui se muestran las Ligas actuales y las que estan en funcionamiento actualmente.
+Admin: Este es el panel de admin. En el panel se pueden hacer cosas como: Administrar el rol de capitan de un usuario, crear torneos y ligas, eliminar equipos, banearlos temporalmente o definitivamente. Administrar a que ligas pertenece un equipo o enviar invitaciones de torneos a equipos. 
+La creacion de torneos por parte del admin se hace de forma manual, es decir: El admin decide la cantidad de partidos para pasar a siguiente fase, duracion del torneo, que dias hay partido y que equipos son miembros ( Parecido al futbol real en cuanto al sistema de fases). Tambien puede decidir si el torneo es publico o privado y a que liga o no pertenece. 
+Para la creacion de ligas el admin decide que equipo ergo usuarios son miembros de una liga. Cada equipo dentro de la liga tiene un puntaje administrado por el admin que varia conforme los partidos programados en calendario. La cantidad de puntos ganados/perdidos por partido declarado como ganador/perdedor/empate  los estable el admin cuenado crea la liga. 
+En calendario el admin programa los partidos pertenecientes a un torneo o liga. El admin establece el partido como (cancelado, realizado, pospuesto). Realizado pregunta el ganador y aplica los puntos. Cancelado cancela el partido y pospuesto pregunta por una nueva fecha. El panel de admin se desbloquea con Nombre y contraseña
+-Admin: Nombre: Latinogang | Contraseña: Ligaesp2840
+
+A los usuarios se les puede otorgar el rol de Capitan. El capitan puede crear equipos y administrarlos (invitar o echar jugadores a su equipo). Las invitaciones funciones mediante invitacion en la pagina (nada de links). El rol de capitan es otogado manualmente por el admin. El usuario puede solicitar el rol de capitan. El capitan  puede soliciar que su equipo se una a una liga o torneo. 
+
+Los equipos necesitan un descripcion de su plataforma de juego (PC, Steam, Xbox  o Gamepass)  y una imagen 
