@@ -54,7 +54,7 @@ export function Sidebar() {
 
           return (
             <Link key={item.path} href={item.path}>
-              <a className={`nav-item ${isActive ? 'active' : ''}`}>
+              <div className={`nav-item ${isActive ? 'active' : ''}`}>
                 <Icon className="w-5 h-5" />
                 <span>{item.label}</span>
                 {item.badge && item.badge > 0 && (
@@ -62,7 +62,7 @@ export function Sidebar() {
                     {item.badge}
                   </Badge>
                 )}
-              </a>
+              </div>
             </Link>
           );
         })}

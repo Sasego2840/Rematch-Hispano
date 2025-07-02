@@ -65,8 +65,8 @@ export function AdminLogin({ onSuccess, onCancel }: AdminLoginProps) {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                className="input-field"
-                placeholder="Latinogang"
+                className="bg-primary-700 border-primary-600 text-white placeholder-gray-400 focus:border-accent-red focus:ring-accent-red"
+                placeholder=""
                 required
               />
             </div>
@@ -78,8 +78,8 @@ export function AdminLogin({ onSuccess, onCancel }: AdminLoginProps) {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="input-field"
-                placeholder="••••••••••••"
+                className="bg-primary-700 border-primary-600 text-white placeholder-gray-400 focus:border-accent-red focus:ring-accent-red"
+                placeholder=""
                 required
               />
             </div>
